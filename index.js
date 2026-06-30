@@ -2,13 +2,9 @@ import "dotenv/config";
 import { PrismaClient } from "./src/generated/prisma/client.ts";
 // Import the driver adapter for your specific database (example uses PostgreSQL)
 import { PrismaPg } from "@prisma/adapter-pg";
-import pg from "pg";
 
-// Initialize the pg connection pool using the environment variable
-const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
-
-// Pass the pg pool to the Prisma Pg adapter
-const adapter = new PrismaPg(pool);
+// Initialize the adapter with connectionString (matches official Prisma documentation)
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 
 // Pass the adapter instance to PrismaClient
 const prisma = new PrismaClient({ adapter });
@@ -31,6 +27,4 @@ const user = await prisma.user.create({
 });
 
 console.log("Created User:", user);
-
-// Close connection pool
-await pool.end();
+
