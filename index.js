@@ -22,15 +22,14 @@ const createUser = async () => {
 
         const user = await prisma.user.create({
             data: {
-                email: `alicsseland-${Date.now()}@prisma.io`,
+                email: `alicssseland${Date.now()}@prisma.io`,
                 posts: {
                     create: { title: "Hello World" },
                 },
-                name: "elsiscae"
+                name: "elsissscae"
             },
         });
-        console.log("Created user successfully:", user);
-
+        console.log(user)
 
     } catch (err) {
         console.log(err)
@@ -38,8 +37,27 @@ const createUser = async () => {
 
 }
 
+const findManyUser = async () => {
+    const users = await prisma.user.findMany()
+    console.log(users)
+}
+
+const updateUser = async () => {
+    const updatedUser = await prisma.user.update({
+        where: {
+            email: "[EMAIL_ADDRESS]"
+        },
+        data: {
+            name: "elsissscae"
+        }
+    })
+    console.log(updatedUser)
+}
+
 try {
-    createUser()
+    // findManyUser()
+    // createUser()
+    updateUser()
 } catch (error) {
     console.log(error)
 } 
