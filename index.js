@@ -1,35 +1,45 @@
-import "dotenv/config";
+import "dotenv/config"
 import { PrismaClient } from "./src/generated/prisma/client.ts";
+// Import the driver adapter for your specific database (example uses PostgreSQL)
 import { PrismaPg } from "@prisma/adapter-pg";
 
-// Initialize the adapter with connectionString (matching official documentation syntax)
+// Initialize the adapter according to your driver's requirements
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 
-// Initialize Prisma Client with the driver adapter
+// Pass the adapter instance to PrismaClient
 const prisma = new PrismaClient({ adapter });
 
-async function main() {
-    // 1. Find all users including their posts
-    const users = await prisma.user.findMany({
-        include: { posts: true },
-    });
-    console.log("Existing Users:", users);
+// Find all users with their posts
+const users = await prisma.user.findMany({
+    include: { posts: true },
+});
 
-    // 2. Create a new user with a post
-    // Note: 'name' is required by your schema.prisma, and 'email' must be unique.
-    const newUser = await prisma.user.create({
-        data: {
-            email: `alice-${Date.now()}@prisma.io`,
-            name: "Alice",
-            posts: {
-                create: { title: "Hello World" },
+// Create a user with a post
+
+const createUser = async () => {
+
+    try {
+
+        const user = await prisma.user.create({
+            data: {
+                email: `alicsseland-${Date.now()}@prisma.io`,
+                posts: {
+                    create: { title: "Hello World" },
+                },
+                name: "elsiscae"
             },
-        },
-    });
-    console.log("Newly Created User:", newUser);
+        });
+        console.log("Created user successfully:", user);
+
+
+    } catch (err) {
+        console.log(err)
+    }
+
 }
 
-main()
-    .catch((error) => {
-        console.error("Error executing query:", error);
-    });
+try {
+    createUser()
+} catch (error) {
+    console.log(error)
+} 
