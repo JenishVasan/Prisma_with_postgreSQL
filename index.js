@@ -38,26 +38,35 @@ const createUser = async () => {
 }
 
 const findManyUser = async () => {
-    const users = await prisma.user.findMany()
-    console.log(users)
+    try {
+        const users = await prisma.user.findMany()
+        console.log(users)
+
+    } catch (err) {
+        console.log("err from find many user: ", err)
+    }
 }
 
 const updateUser = async () => {
-    const updatedUser = await prisma.user.update({
-        where: {
-            email: "[EMAIL_ADDRESS]"
-        },
-        data: {
-            name: "elsissscae"
-        }
-    })
-    console.log(updatedUser)
+    try {
+        const updatedUser = await prisma.user.update({
+            where: {
+                email: "[EMAIL_ADDRESS]"
+            },
+            data: {
+                name: "elsissscae"
+            }
+        })
+        console.log(updatedUser)
+    } catch (err) {
+        console.log("Error from update user:", err.message || err);
+    }
+}
+try {
+    await findManyUser()
+    // await createUser()
+    await updateUser()
+} catch (error) {
+    console.log("Caught top-level error:", error)
 }
 
-try {
-    // findManyUser()
-    // createUser()
-    updateUser()
-} catch (error) {
-    console.log(error)
-} 
