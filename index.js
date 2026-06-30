@@ -4,10 +4,10 @@ import { PrismaClient } from "./src/generated/prisma/client.ts";
 import { PrismaPg } from "@prisma/adapter-pg";
 import pg from "pg";
 
-// Initialize pg Client/Pool
+// Initialize the pg connection pool using the environment variable
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
 
-// Initialize the adapter according to your driver's requirements
+// Pass the pg pool to the Prisma Pg adapter
 const adapter = new PrismaPg(pool);
 
 // Pass the adapter instance to PrismaClient
@@ -19,7 +19,7 @@ const users = await prisma.user.findMany({
 });
 console.log("Users:", users);
 
-// Create a user with a post
+// Create a user with a unique email to avoid unique constraint errors
 const user = await prisma.user.create({
     data: {
         email: `alice-${Date.now()}@prisma.io`,
@@ -31,4 +31,6 @@ const user = await prisma.user.create({
 });
 
 console.log("Created User:", user);
-await pool.end();
+
+// Close connection pool
+await pool.end();
