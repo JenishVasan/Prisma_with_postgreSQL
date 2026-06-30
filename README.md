@@ -33,6 +33,35 @@ To run migrations and apply changes to your PostgreSQL database:
 npx prisma migrate dev
 ```
 
+### 4. Common Prisma Commands
+Here are the most frequently used Prisma commands for development:
+
+*   **Generate Prisma Client:** Re-generate the client query engine when the schema changes.
+    ```bash
+    npx prisma generate
+    ```
+*   **Create Migration:** Create a new migration file and apply it to the database.
+    ```bash
+    npx prisma migrate dev --name <migration_name>
+    ```
+*   **Deploy Migrations:** Apply pending migrations to a staging or production database.
+    ```bash
+    npx prisma migrate deploy
+    ```
+*   **Direct Schema Push:** Sync schema changes directly to the database without generating migrations (great for prototyping).
+    ```bash
+    npx prisma db push
+    ```
+*   **Pull Database Schema:** Introspect an existing database schema to update your `schema.prisma`.
+    ```bash
+    npx prisma db pull
+    ```
+*   **Open Prisma Studio:** Launch a visual browser GUI to view and edit your database records.
+    ```bash
+    npx prisma studio
+    ```
+
+
 ---
 
 ## Connection Guide: Node.js vs. Next.js
